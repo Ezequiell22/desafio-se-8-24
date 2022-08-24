@@ -1,0 +1,71 @@
+import { isEmpty, isNil } from 'ramda';
+import {
+  create,
+  update,
+  get,
+  Del
+} from '../../sevices/debt/DebtService.js';
+import { msgMethodError } from '../../utils/message/responseRest.js';
+import { normalizePayloadValue as normalizePayload } from '../../utils/globals/normalizePayloads.js';
+import { verifyUuid } from '../../utils/globals/Func.js';
+import { getConnection } from '../../db/knexfile.js';
+
+const TYPE = 'Debt';
+
+const msgToken = msgMethodError(TYPE, 'not baerer token', 400);
+const msgBody = msgMethodError(TYPE, 'not body', 400);
+
+const createEntity = async (body, token) => {
+  if (isEmpty(body)) return msgBody;
+  if (isEmpty(token)) return msgToken;
+
+  body = normalizePayload(body);
+  const db = getConnection();
+  const resp = await create(body, token, db);
+  db.destroy();
+  return resp;
+};
+        
+const updateEntity = async (body, token) => {
+  if (isEmpty(body)) return msgBody;
+  if (isEmpty(token)) return msgToken;
+  if (isNil(body.id) || isEmpty(body.id)) return msgBody;
+
+  if (!verifyUuid(body.id)) return msgMethodError(TYPE, 'invalid uuid', 400);
+
+  body = normalizePayload(body);
+  const db = getConnection();
+  const resp = await update(body, token, db);
+  db.destroy();
+  return resp;
+};
+
+
+const getEntity = async (id_user, token) => {
+  if (isEmpty(token)) return msgToken;
+
+  const db = getConnection();
+  const resp = await get(id_user, token, db);
+  db.destroy();
+  return resp;
+};
+
+
+const delEntity = async (body, token ) => {
+  if (isEmpty(body)) return msgBody;
+  if (isEmpty(token)) return msgToken;
+  if (isNil(body.id) || isEmpty(body.id)) return msgBody;
+
+  body = normalizePayload(body);
+  const db = getConnection();
+  const resp = await Del(body, token,db);
+  db.destroy();
+  return resp;
+};
+
+export default {
+  createEntity,
+  updateEntity,
+  delEntity,
+  getEntity
+};

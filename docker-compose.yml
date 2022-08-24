@@ -1,0 +1,42 @@
+version: '3'
+services:
+  apise:
+    container_name: api-se
+    command: npm run start:dev
+    build: .
+    ports:
+      - 3000:3000
+      - 4000:4000
+    environment:
+      POSTGRES_HOST_STR_CONN: postgres:mysecretpassword@postgres:5432
+      DB_HOST : postgres
+      DB_USER: postgres
+      DB_PASS : mysecretpassword
+      DB_DATABASE : db1
+      DB_CLIENT : pg
+      DB_PORT: 5432
+      DB_VERSION: 13.1
+      SECRET: '984jjiofjodsijfoqhw74y329041l2jh4u12u4i12g4iuiuuigiu'
+
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    volumes:
+      - .:/src
+      # - nodemodules:/src/node_modules
+    
+  postgres:
+    container_name: postgres
+    restart: always
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: db1
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      
+volumes:
+  db-data: {}
