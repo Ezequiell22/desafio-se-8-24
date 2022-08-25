@@ -5,9 +5,10 @@ const generateTables = async () => {
   try {
     //cria conexao 
     const db = getConnection();
-    // await db.schema.dropTableIfExists('user');
-    // await db.schema.dropTableIfExists('material_goods');
-    // await db.schema.dropTableIfExists('debt');
+
+    await db.schema.dropTableIfExists('material_goods');
+    await db.schema.dropTableIfExists('debt');
+    await db.schema.dropTableIfExists('user');
 
     const existsTusuario = await db.schema.hasTable('user')
 
@@ -19,7 +20,6 @@ const generateTables = async () => {
         table.string('hash').notNullable();
         table.string('cpf').notNullable();
         table.string('salt').notNullable();
-        table.dateTime('last_modify_date').notNullable();
         table.dateTime('creation_date').notNullable();
         table.string('active').notNullable();
       });
@@ -56,6 +56,8 @@ const generateTables = async () => {
    
     }
 
+    await db('debt').del()
+    await db('material_goods').del()
     await db('user').del()
 
     //cadastra users
@@ -64,7 +66,6 @@ const generateTables = async () => {
     await db('user').insert({
       id : create_UUID(),
       creation_date : brazilJsonDate(),
-      last_modify_date : brazilJsonDate(),
       hash :passCrypto.hash,
       salt :passCrypto.salt,
       cpf: '01001001023',
@@ -78,7 +79,6 @@ const generateTables = async () => {
     await db('user').insert({
       id : create_UUID(),
       creation_date : brazilJsonDate(),
-      last_modify_date : brazilJsonDate(),
       hash :passCrypto.hash,
       salt :passCrypto.salt,
       cpf: '01001001021',
@@ -93,7 +93,6 @@ const generateTables = async () => {
     await db('user').insert({
       id : create_UUID(),
       creation_date : brazilJsonDate(),
-      last_modify_date : brazilJsonDate(),
       hash :passCrypto.hash,
       salt :passCrypto.salt,
       cpf: '01001001022',
@@ -105,7 +104,7 @@ const generateTables = async () => {
     console.log('success create tables');
     db.destroy();
   } catch (e) {
-    console.log(e + "ERRRROOO");
+    console.log(e + " ERRRROOO");
   }
 };
 

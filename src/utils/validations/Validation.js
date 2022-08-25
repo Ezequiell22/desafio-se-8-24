@@ -59,7 +59,8 @@ export const verifyBaererAuth = async (token, db) => {
         .select(
           'user.id',
           'user.role',
-          'user.name'
+          'user.name',
+          'user.cpf'
         )
         .where('user.id', profile.id)
         .then((response) => {

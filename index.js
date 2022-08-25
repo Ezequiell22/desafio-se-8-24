@@ -24,6 +24,6 @@ app.use(bearerToken());
 app.use('/', router);
 
 app.listen(port, async () => {
-  await generateTables();
+  // await generateTables();
   console.log(`Server rodando na porta:${port}`);
 });

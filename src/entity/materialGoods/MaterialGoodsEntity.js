@@ -45,7 +45,7 @@ const getEntity = async (token) => {
   if (isEmpty(token)) return msgToken;
 
   const db = getConnection();
-  const resp = await get(token, db);
+  const resp = await get( token, db);
   db.destroy();
   return resp;
 };

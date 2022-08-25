@@ -22,7 +22,6 @@ export const create = async (values, token, db) => {
   try {
     values['id'] = create_UUID();
     values['creation_date'] = brazilJsonDate();
-    values['last_modify_date'] = brazilJsonDate();
     values['id_user'] = resp.data.id;
 
     await db(TYPE).insert(values);
@@ -68,16 +67,13 @@ export const get = async (token, db) => {
         `${TYPE}.id`,
         `${TYPE}.type`,
         `${TYPE}.description`,
-        `${TYPE}.value`,
-        `${TYPE}.last_modify_date`
+        `${TYPE}.value`
       )
       .where(`${TYPE}.id_user`, resp.data.id)
       .then((response) => {
-        if (isEmpty(response)) {
-          resp = msgGetError(TYPE, ERROR_INVALID, 400);
-        } else {
+
           resp = msgGetSuccess(TYPE,response, 200);
-        }
+      
       });
 
   } catch (error) {

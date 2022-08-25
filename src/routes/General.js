@@ -3,6 +3,7 @@ import login from './profile/Login.js';
 import profile from './profile/Profile.js'
 import debt from './debt/Debt.js'
 import materialGoods from './materialGoods/MaterialGoods.js'
+import score from './score/Score.js'
 
 const router = express.Router();
 
@@ -19,5 +20,6 @@ login(router);
 profile(router);
 debt(router);
 materialGoods(router);
+score(router);
 
 export default router;

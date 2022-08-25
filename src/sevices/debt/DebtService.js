@@ -16,7 +16,7 @@ const TYPE = 'debt';
 
 export const create = async (values, token, db) => {
   let resp = await verifyBaererAuth(token, db);
-  if (!resp.success || !( resp.data.role = 1 )) return resp;
+  if (!resp.success || !( resp.data.role == 1 )) return resp;
 
   try {
     values['id'] = create_UUID();
@@ -35,7 +35,7 @@ export const create = async (values, token, db) => {
 
 export const update = async (values, token, db) => {
   let resp = await verifyBaererAuth(token, db);
-  if (!resp.success || !( resp.data.role = 1 )) return resp;
+  if (!resp.success || !( resp.data.role == 1 )) return resp;
 
   try {
 
@@ -57,7 +57,7 @@ export const update = async (values, token, db) => {
 
 export const get = async (id_user, token, db) => {
   let resp = await verifyBaererAuth(token, db);
-  if (!resp.success || !( resp.data.role = 1 )) return resp;
+  if (!resp.success || !( resp.data.role == 1 )) return resp;
   let array = [];
 
   try {
@@ -88,7 +88,7 @@ export const get = async (id_user, token, db) => {
 export const Del = async (values, token, db) => {
 
   let resp = await verifyBaererAuth(token, db);
-  if (!resp.success || !( resp.data.role = 1 )) return resp;
+  if (!resp.success || !( resp.data.role == 1 )) return resp;
 
   try{
     await db(TYPE)

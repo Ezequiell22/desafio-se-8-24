@@ -6,26 +6,6 @@ import moment from 'moment-timezone';
 
 export const create_UUID = () => uuidv4();
 
-export const units = [
-  { id: 'DZ', name: 'DZ' },
-  { id: 'UN', name: 'UN' },
-  { id: 'KG', name: 'KG' },
-  { id: '1KG', name: '1KG' },
-  { id: '2KG', name: '2KG' },
-  { id: '5KG', name: '5KG' },
-  { id: 'KIT', name: 'KIT' },
-  { id: 'PCT', name: 'PCT' },
-  { id: 'POTE', name: 'POTE' },
-  { id: 'LITRO', name: 'LITRO' },
-  { id: 'UN 500G', name: 'UN 500G' },
-  { id: 'UN 600G', name: 'UN 600G' },
-  { id: 'UN 3,25KG', name: 'UN 3,25KG' },
-  { id: 'UN 3,35KG', name: 'UN 3,35KG' },
-];
-
-export const transformStringReaisInFloat = (payload) =>
-  parseFloat(payload.replace('R$ ', '').replace(/\./g, '').replace(',', '.'));
-
 export const transformFloatInReais = (value) => {
   value = toString(value);
   if (value) {
@@ -53,17 +33,6 @@ export const brazilJsonDate = (
   tz = 'America/Sao_Paulo'
 ) => {
   return moment(utcdateTime).tz(tz).format();
-};
-
-export const replaceSpecialChars = (str) => {
-  return (
-    str
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove acentos
-      // .replace(/([^\w]+|\s+)/g, '-') // Substitui espaço e outros caracteres por hífen
-      // .replace(/\-\-+/g, '-') // Substitui multiplos hífens por um único hífen
-      .replace(/(^-+|-+$)/, '')
-  ); // Remove hífens extras do final ou do inicio da string
 };
 
 export const gerarSalt = (value) => {

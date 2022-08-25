@@ -8,8 +8,9 @@ const TYPE = 'user'
 
 export const getAll = async (token, limit, offset, db) => {
     let resp = await verifyBaererAuth(token, db);
-    if ((!resp.success)  ||  !( resp.data.role = 1) ) return resp;
-  
+    if (!resp.success  ||  !( resp.data.role == 1) ) return resp;
+    console.log(resp.data.role, 'role') 
+
     let quant = 0;
   
     await db(TYPE)

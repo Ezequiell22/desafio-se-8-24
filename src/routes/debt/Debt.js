@@ -3,10 +3,14 @@ import debt from '../../entity/debt/DebtEntity.js';
 
 const TYPE = 'debt'
 
+console.log('dsa')
+
 const DebtRoute = (app) => {
   app.post('/'+TYPE, async (req, res) => {
     try {
-      const response = await debt.createEntity(propOr('', ['body'], req));
+      const response = await debt.createEntity(
+        propOr('', ['body'], req),
+        pathOr('', ['token'], req));
       res.status(response.status).json(response);
     } catch (e) {
       res.status(500).json({ error: { type: 'internal server error', e: e + '' } });
@@ -15,7 +19,9 @@ const DebtRoute = (app) => {
 
   app.put('/'+TYPE, async (req, res) => {
     try {
-      const response = await debt.updateEntity(propOr('', ['body'], req));
+      const response = await debt.updateEntity(
+        propOr('', ['body'], req),
+        pathOr('', ['token'], req));
       res.status(response.status).json(response);
     } catch (e) {
       res.status(500).json({ error: { type: 'internal server error', e: e + '' } });

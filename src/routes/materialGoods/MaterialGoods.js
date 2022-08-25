@@ -1,4 +1,4 @@
-import { propOr } from 'ramda';
+import { pathOr, propOr } from 'ramda';
 import material_goods from '../../entity/materialGoods/MaterialGoodsEntity.js';
 
 const TYPE = 'mgoods'
@@ -6,7 +6,9 @@ const TYPE = 'mgoods'
 const DebtRoute = (app) => {
   app.post('/'+TYPE, async (req, res) => {
     try {
-      const response = await material_goods.createEntity(propOr('', ['body'], req));
+      const response = await material_goods.createEntity(
+        propOr('', ['body'], req),
+        pathOr('', ['token'], req));
       res.status(response.status).json(response);
     } catch (e) {
       res.status(500).json({ error: { type: 'internal server error', e: e + '' } });
@@ -15,7 +17,9 @@ const DebtRoute = (app) => {
 
   app.put('/'+TYPE, async (req, res) => {
     try {
-      const response = await material_goods.updateEntity(propOr('', ['body'], req));
+      const response = await material_goods.updateEntity(
+        propOr('', ['body'], req),
+        pathOr('', ['token'], req));
       res.status(response.status).json(response);
     } catch (e) {
       res.status(500).json({ error: { type: 'internal server error', e: e + '' } });
@@ -25,12 +29,11 @@ const DebtRoute = (app) => {
   app.get('/' + TYPE , async (req, res) => {
     try {
       const response = await material_goods.getEntity(
-        pathOr('', ['params', 'id'], req),
         pathOr('', ['token'], req)
       );
       res.status(response.status).json(response);
     } catch (e) {
-      res.status(500).json({ error: { type: 'internal server error', e: e } });
+      res.status(500).json({ error: { type: 'internal server error', e: e + '' } });
     }
   });
 
