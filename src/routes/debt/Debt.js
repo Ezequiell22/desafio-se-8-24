@@ -42,13 +42,13 @@ const DebtRoute = (app) => {
 
   app.delete('/' + TYPE + '/:id', async (req, res) => {
     try {
-      const response = await debt.delDelivery(
+      const response = await debt.delEntity(
         pathOr('', ['params', 'id'], req),
         pathOr('', ['token'], req)
       );
       res.status(response.status).json(response);
     } catch (e) {
-      res.status(500).json({ error: { type: 'internal server error', e: e } });
+      res.status(500).json({ error: { type: 'internal server error', e: e+ '' } });
     }
   });
 

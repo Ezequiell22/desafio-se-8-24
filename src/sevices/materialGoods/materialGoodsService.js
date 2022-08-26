@@ -18,7 +18,6 @@ export const create = async (values, token, db) => {
   let resp = await verifyBaererAuth(token, db);
   if (!resp.success ) return resp;
 
-
   try {
     values['id'] = create_UUID();
     values['creation_date'] = brazilJsonDate();
@@ -41,8 +40,10 @@ export const update = async (values, token, db) => {
   try {
 
     const val = {
-      ...omit(['id'], values)
-    };
+      ...omit(['id', 'id_user'], values)
+    };  
+
+    console.log('values', values)
 
     await db(TYPE)
     .where('id', values.id)
@@ -83,7 +84,7 @@ export const get = async (token, db) => {
   return resp;
 };
 
-export const Del = async (values, token , db) => {
+export const Del = async (id, token , db) => {
 
   let resp = await verifyBaererAuth(token, db);
   if (!resp.success) return resp;
@@ -91,7 +92,7 @@ export const Del = async (values, token , db) => {
   try{
     await db(TYPE)
     .delete()
-    .where('id', values.id)
+    .where('id', id)
     .where('id_user', resp.data.id)
   
     resp = msgDeleteSuccess(TYPE, 404)

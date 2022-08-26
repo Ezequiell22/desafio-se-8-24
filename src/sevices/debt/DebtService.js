@@ -1,4 +1,4 @@
-import { isEmpty, omit } from 'ramda';
+import { omit } from 'ramda';
 import { create_UUID, brazilJsonDate } from '../../utils/globals/Func.js';
 import { verifyBaererAuth } from '../../utils/validations/Validation.js';
 import {
@@ -16,7 +16,10 @@ const TYPE = 'debt';
 
 export const create = async (values, token, db) => {
   let resp = await verifyBaererAuth(token, db);
-  if (!resp.success || !( resp.data.role == 1 )) return resp;
+  
+  if (!resp.success) return resp;
+   
+  if (!(resp.data.role == 1) ) return msgGetError(TYPE, 'permission denied', 403);
 
   try {
     values['id'] = create_UUID();
@@ -35,12 +38,15 @@ export const create = async (values, token, db) => {
 
 export const update = async (values, token, db) => {
   let resp = await verifyBaererAuth(token, db);
-  if (!resp.success || !( resp.data.role == 1 )) return resp;
+  
+  if (!resp.success) return resp;
+   
+  if (!(resp.data.role == 1) ) return msgGetError(TYPE, 'permission denied', 403);
 
   try {
 
     const val = {
-      ...omit(['id'], values)
+      ...omit(['id', 'id_user'], values)
     };
 
     await db(TYPE)
@@ -57,8 +63,10 @@ export const update = async (values, token, db) => {
 
 export const get = async (id_user, token, db) => {
   let resp = await verifyBaererAuth(token, db);
-  if (!resp.success || !( resp.data.role == 1 )) return resp;
-  let array = [];
+
+  if (!resp.success) return resp;
+   
+  if (!(resp.data.role == 1) ) return msgGetError(TYPE, 'permission denied', 403);
 
   try {
     await db(TYPE)
@@ -85,16 +93,17 @@ export const get = async (id_user, token, db) => {
   return resp;
 };
 
-export const Del = async (values, token, db) => {
+export const Del = async (id, token, db) => {
 
   let resp = await verifyBaererAuth(token, db);
-  if (!resp.success || !( resp.data.role == 1 )) return resp;
+  if (!resp.success) return resp;
+   
+  if (!(resp.data.role == 1) ) return msgGetError(TYPE, 'permission denied', 403);
 
   try{
     await db(TYPE)
     .delete()
-    .where('id', values.id)
-    .where('id_user', values.id_user )
+    .where('id', id)
   
     resp = msgDeleteSuccess(TYPE, 404)
   }catch(e){

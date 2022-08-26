@@ -51,14 +51,11 @@ const getEntity = async (id_user, token) => {
 };
 
 
-const delEntity = async (body, token ) => {
-  if (isEmpty(body)) return msgBody;
+const delEntity = async (id, token ) => {
   if (isEmpty(token)) return msgToken;
-  if (isNil(body.id) || isEmpty(body.id)) return msgBody;
 
-  body = normalizePayload(body);
   const db = getConnection();
-  const resp = await Del(body, token,db);
+  const resp = await Del(id, token,db);
   db.destroy();
   return resp;
 };

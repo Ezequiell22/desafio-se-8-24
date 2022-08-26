@@ -6,21 +6,32 @@ import {
 
 const TYPE = 'score'
 
+export const calcScore = (debt, Mgoods ) => {
 
-const calcScore = (debt, Mgoods ) => {
+    let score = 0
+    let fDebt = parseFloat(debt)
+    let fMgoods = parseFloat(Mgoods)
 
     //total igual a 100%
-    let valorTotal = parseFloat(debt) +  parseFloat(Mgoods)
+    let valorTotal = fDebt + fMgoods
+    
+    //score inicial
+    if (valorTotal == 0) 
+    {
+        score = 1000
+        return Math.round(score)
+    }
 
     //porcetagem do debito no valor total
-    let porcentagemDebt = ( (parseFloat( debt ) / valorTotal ) * 100)  
+    const porcentagemDebt = ( ( fDebt / valorTotal ) * 100)  
 
     //porcentagem dos bens materiais sobre o valor total
-    let porcentagemMGoods = ( (parseFloat( Mgoods ) / valorTotal ) * 100)  
+    const porcentagemMGoods = ( ( fMgoods / valorTotal ) * 100)  
 
-    let score = ( porcentagemMGoods ) * 10
+    score = ( porcentagemMGoods ) * 10
 
     return Math.round(score)
+
 }
 
 export const getScore = async (cpf, token, db) => {

@@ -32,6 +32,9 @@ export const normalizePayloadValue = (payload) => {
 
   for (let key in pay) {
     switch (key) {
+      case 'id':
+        newPayload[key] = pay[key];
+        break;
       case 'type':
         newPayload[key] = pay[key];
         break;

@@ -8,10 +8,11 @@ const TYPE = 'user'
 
 export const getAll = async (token, limit, offset, db) => {
     let resp = await verifyBaererAuth(token, db);
-    if (!resp.success  ||  !( resp.data.role == 1) ) return resp;
-    console.log(resp.data.role, 'role') 
-
     let quant = 0;
+
+    if (!resp.success) return resp;
+   
+    if (!(resp.data.role == 1) ) return msgGetError(TYPE, 'permission denied', 403);
   
     await db(TYPE)
       .count('id as quant')

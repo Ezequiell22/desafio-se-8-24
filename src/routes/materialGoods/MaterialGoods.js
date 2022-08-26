@@ -39,7 +39,7 @@ const DebtRoute = (app) => {
 
   app.delete('/' + TYPE + '/:id', async (req, res) => {
     try {
-      const response = await material_goods.delDelivery(
+      const response = await material_goods.delEntity(
         pathOr('', ['params', 'id'], req),
         pathOr('', ['token'], req)
       );

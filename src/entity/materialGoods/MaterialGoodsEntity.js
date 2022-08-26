@@ -33,6 +33,8 @@ const updateEntity = async (body, token) => {
 
   if (!verifyUuid(body.id)) return msgMethodError(TYPE, 'invalid uuid', 400);
 
+  console.log('entity',body )
+
   body = normalizePayload(body);
   const db = getConnection();
   const resp = await update(body, token, db);
@@ -51,14 +53,11 @@ const getEntity = async (token) => {
 };
 
 
-const delEntity = async (body, token ) => {
-  if (isEmpty(body)) return msgBody;
+const delEntity = async (id, token ) => {
   if (isEmpty(token)) return msgToken;
-  if (isNil(body.id) || isEmpty(body.id)) return msgBody;
 
-  body = normalizePayload(body);
   const db = getConnection();
-  const resp = await Del(body, token,db);
+  const resp = await Del(id, token,db);
   db.destroy();
   return resp;
 };

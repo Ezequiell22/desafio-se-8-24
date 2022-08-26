@@ -2,7 +2,6 @@ version: '3'
 services:
   apise:
     container_name: api-se
-    command: npm run start:dev
     build: .
     ports:
       - 3000:3000
@@ -22,8 +21,8 @@ services:
       - postgres
     links:
       - postgres
-    volumes:
-      - .:/src
+    # volumes:
+    #   - .:/src
       # - nodemodules:/src/node_modules
     
   postgres:
