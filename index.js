@@ -1,27 +1,32 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import router from './src/routes/General.js';
-import generateTables from './src/db/tables.js';
-import bearerToken from 'express-bearer-token';
-import formData from 'express-form-data';
-import cors from 'cors';
+import os from 'os'
+import cluster from 'cluster'
 
-const app = express();
 
-const port = process.env.PORT || 3000;
-console.log('DB_PORT ', process.env.DB_PORT);
-console.log('DB_DATABASE ', process.env.DB_DATABASE);
-console.log('DB_USER ', process.env.DB_USER);
-console.log('DB_PASS ', process.env.DB_PASS);
+const runPrimaryProcess = () =>{
+const processesCount = os.cpus().length
+console.log(`Primary ${process.pid} is running`)
+console.log(`Forking Server with ${processesCount} processes \n  `)
 
-app.use(cors());
-app.use(formData.parse());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bearerToken());
-app.use('/', router);
+    for(let index = 0; index < processesCount; index++)
+        cluster.fork()
 
-app.listen(port, async () => {
-  await generateTables();
-  console.log(`Server rodando na porta:${port}`);
-});
+    cluster.on('exit', (worker, code , signal ) => {
+
+            //código de exit 0 significa que o user pediu para terminar
+            //exitedAfterDisconnect = se o worker perdeu conexão
+        if (code !== 0 && !worker.exitedAfterDisconnect){
+            console.log(`Worker ${worker.process.pid} died...`)
+
+            //cria novos workers
+            cluster.fork()
+        }
+    })
+}
+
+const runWorkerProcess = async () =>{
+    //quem realmente trabalha
+    await import('./server.js')
+}
+
+
+cluster.isPrimary ? runPrimaryProcess() : runWorkerProcess()

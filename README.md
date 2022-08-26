@@ -6,6 +6,7 @@
     - todo o ambiente é montado automaticamente com as configurações dos arquivos docker-compose.yml e Dockerfile, esses arquivos contém configuração do banco postGreSql e do nodejs e seu ambiente.
     - para utilizar a aplicação basta fazer o login com o admin1 e cadastrar dívidas para os usuarios e após isso logar com algum destes usuarios e cadastras bens para os mesmos. Após essa etapa ja pode ser feita a consulta do score. O admin1 pode consultar o score de qualquer usuario.
     - o usuario só consegue consultar seu proprio score, não importando qual cpf ele informe no params da rota o service sempre pegara o cpf do id do token
+    - a aplicação aguenta uma carga maior devido ao cluster que foi implementado para subir um worker por nucleo 
     
 ## Technical choices:
     - postGreSql

@@ -6,9 +6,9 @@ const generateTables = async () => {
     //cria conexao 
     const db = getConnection();
 
-    await db.schema.dropTableIfExists('material_goods');
-    await db.schema.dropTableIfExists('debt');
-    await db.schema.dropTableIfExists('user');
+    // await db.schema.dropTableIfExists('material_goods');
+    // await db.schema.dropTableIfExists('debt');
+    // await db.schema.dropTableIfExists('user');
 
     const existsTusuario = await db.schema.hasTable('user')
 
