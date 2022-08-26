@@ -1,5 +1,4 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import router from './src/routes/General.js';
 import generateTables from './src/db/tables.js';
@@ -7,7 +6,6 @@ import bearerToken from 'express-bearer-token';
 import formData from 'express-form-data';
 import cors from 'cors';
 
-// dotenv.config({ path: './.env' });
 const app = express();
 
 const port = process.env.PORT || 3000;
@@ -24,6 +22,6 @@ app.use(bearerToken());
 app.use('/', router);
 
 app.listen(port, async () => {
-  // await generateTables();
+  await generateTables();
   console.log(`Server rodando na porta:${port}`);
 });

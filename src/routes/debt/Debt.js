@@ -3,8 +3,6 @@ import debt from '../../entity/debt/DebtEntity.js';
 
 const TYPE = 'debt'
 
-console.log('dsa')
-
 const DebtRoute = (app) => {
   app.post('/'+TYPE, async (req, res) => {
     try {

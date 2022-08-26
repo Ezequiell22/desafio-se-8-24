@@ -44,7 +44,7 @@ export const getScore = async (cpf, token, db) => {
 
     if (!resp.success ) return resp;
 
-    if (!resp.data.role == 1) {
+    if (!(resp.data.role == 1)) {
         //o usuario comum so pode consultar seu proprio score
         cpf = resp.data.cpf
     }
@@ -58,7 +58,7 @@ export const getScore = async (cpf, token, db) => {
         .limit(1)
         .then((response) => {
            
-            if(response){
+            if(response && response.length > 0 ){
                 user_id = response[0].id
             }
          
@@ -106,7 +106,8 @@ export const getScore = async (cpf, token, db) => {
         resp = msgGetSuccess(TYPE, {
             "Total de bens" : `R$ ${totMaterialGoods.toFixed(2)}` ,
             "Total de dívidas" : `R$ ${totDebt.toFixed(2)}`,
-            "Seu Score atual" : `${score} pontos` 
+            "Seu Score atual" : `${score} pontos`,
+            "cpf" : cpf
         }, 200);
 
     }catch(e){
